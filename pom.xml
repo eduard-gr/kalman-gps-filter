@@ -20,7 +20,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/eduard-gr/Kalman-gps-filter</url>
+			<url>https://maven.pkg.github.com/eduard-gr/kalman-gps-filter</url>
 		</repository>
 	</distributionManagement>
 
