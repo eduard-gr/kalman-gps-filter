@@ -2,11 +2,16 @@ package com.gps;
 
 public class KalmanFilter {
 
-    private double MIN_ACCURACY = Math.pow(5f,2);
+    private final double accuracy;
     private long timestamp = 0; // millis
     private double latitude = 0; // degree
     private double longitude = 0; // degree
-    private double variance = MIN_ACCURACY; // P matrix. Initial estimate of error
+    private double variance;// = accuracy; // P matrix. Initial estimate of error
+
+    public KalmanFilter(double accuracy) {
+        this.accuracy = Math.pow(accuracy,2);
+        this.variance = this.accuracy;
+    }
 
     /**
      * Kalman filter processing for latitude and longitude
@@ -45,7 +50,7 @@ public class KalmanFilter {
         // Kalman gain matrix 'k' = Covariance * Inverse(Covariance + MeasurementVariance)
         // because 'k' is dimensionless,
         // it doesn't matter that variance has different units to latitude and longitude
-        double k = this.variance / (this.variance + MIN_ACCURACY);
+        double k = this.variance / (this.variance + accuracy);
 
         this.latitude += k * (latitude - this.latitude);
         this.longitude += k * (longitude - this.longitude);

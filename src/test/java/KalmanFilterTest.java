@@ -14,16 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class KalmanFilterTest {
-
+    private final static double SPEED_ERROR = (1.0 - (25.0 / 100.0));
     @Test
     void filter() throws IOException, URISyntaxException {
-        final URL resource = getClass().getClassLoader().getResource("input.json");
+        final URL resource = getClass().getClassLoader().getResource("input2.json");
 
         Path file = Path.of(resource.toURI());
         String content = Files.readString(file);
 
         final var json = new JSONArray(content);
-        final KalmanFilter filter = new KalmanFilter();
+        final KalmanFilter filter = new KalmanFilter(25f);
 
         final var coordinates = new JSONArray();
 
@@ -32,7 +32,7 @@ public class KalmanFilterTest {
 
             double[] corrected = filter.process(
                 telemetry.getLong("time"),
-                telemetry.getDouble("speed") * 0.277777777778,
+                    (telemetry.getDouble("speed") * SPEED_ERROR) * 0.277777777778,
                 telemetry.getDouble("latitude"),
                 telemetry.getDouble("longitude"));
 
